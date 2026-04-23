@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lukman's Furniture Works – Crafted for Life</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Bebas+Neue&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #F5A623;
+    --deep-gold: #C8811A;
+    --dark: #0a1628;
+    --darker: #060e1c;
+    --charcoal: #1a2a3a;
+    --wood: #8B5E3C;
+    --cream: #FAF3E0;
+    --text-light: #e8d5b0;
+    --text-muted: #a89070;
+    --cyan-accent: #00C8FF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--darker);
+    color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── ANIMATED BG NETWORK ─── */
+  #network-canvas {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    opacity: 0.18;
+    pointer-events: none;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed;
+    top: 0; width: 100%;
+    z-index: 100;
+    padding: 18px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(6, 14, 28, 0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(245,166,35,0.15);
+  }
+
+  .nav-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.15em;
+    color: var(--gold);
+    text-decoration: none;
+  }
+
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    z-index: 1;
+    padding: 120px 20px 60px;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(245,166,35,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 60% 40% at 20% 80%, rgba(0,200,255,0.04) 0%, transparent 60%);
+  }
+
+  .hero-logo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    border: 2px solid rgba(245,166,35,0.4);
+    box-shadow: 0 0 40px rgba(245,166,35,0.25), 0 0 80px rgba(245,166,35,0.1);
+    margin: 0 auto 40px;
+    animation: float 4s ease-in-out infinite, glow-pulse 3s ease-in-out infinite;
+    display: block;
+    object-fit: cover;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-12px); }
+  }
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 40px rgba(245,166,35,0.25), 0 0 80px rgba(245,166,35,0.1); }
+    50% { box-shadow: 0 0 60px rgba(245,166,35,0.45), 0 0 120px rgba(245,166,35,0.2); }
+  }
+
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    line-height: 0.92;
+    letter-spacing: 0.04em;
+    color: #fff;
+    animation: fadeUp 0.8s 0.15s ease both;
+  }
+
+  .hero-title span { color: var(--gold); }
+
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+    color: var(--text-light);
+    margin: 20px 0 40px;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    padding: 14px 44px;
+    border: 1.5px solid var(--gold);
+    color: var(--gold);
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.8s 0.45s ease both;
+  }
+
+  .hero-cta::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: translateX(-101%);
+    transition: transform 0.3s;
+    z-index: -1;
+  }
+
+  .hero-cta:hover { color: var(--darker); }
+  .hero-cta:hover::before { transform: translateX(0); }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ─── SECTION BASE ─── */
+  section {
+    position: relative;
+    z-index: 1;
+    padding: 100px 60px;
+    max-width: 1300px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.06em;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 24px;
+  }
+
+  .section-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    line-height: 1.85;
+    color: var(--text-light);
+    max-width: 680px;
+  }
+
+  .divider {
+    width: 60px;
+    height: 2px;
+    background: var(--gold);
+    margin: 30px 0;
+  }
+
+  /* ─── ABOUT ─── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .stat-card {
+    background: rgba(245,166,35,0.05);
+    border: 1px solid rgba(245,166,35,0.12);
+    padding: 36px 28px;
+    transition: all 0.3s;
+  }
+
+  .stat-card:hover {
+    background: rgba(245,166,35,0.1);
+    border-color: rgba(245,166,35,0.3);
+    transform: translateY(-4px);
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3.5rem;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 8px;
+  }
+
+  /* ─── SERVICES ─── */
+  .services-full {
+    background: rgba(10,22,40,0.6);
+    border-top: 1px solid rgba(245,166,35,0.08);
+    border-bottom: 1px solid rgba(245,166,35,0.08);
+    padding: 100px 60px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    margin-top: 60px;
+  }
+
+  .service-card {
+    background: rgba(6,14,28,0.8);
+    border: 1px solid rgba(245,166,35,0.08);
+    padding: 50px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    cursor: default;
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--gold);
+    transition: width 0.4s;
+  }
+
+  .service-card:hover { background: rgba(245,166,35,0.04); transform: translateY(-6px); }
+  .service-card:hover::after { width: 100%; }
+
+  .service-icon {
+    font-size: 2.5rem;
+    margin-bottom: 24px;
+    display: block;
+  }
+
+  .service-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem;
+    letter-spacing: 0.06em;
+    color: var(--gold);
+    margin-bottom: 14px;
+  }
+
+  .service-desc {
+    font-size: 0.82rem;
+    line-height: 1.8;
+    color: var(--text-muted);
+    font-weight: 300;
+  }
+
+  /* ─── WHY US ─── */
+  .why-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    margin-top: 60px;
+  }
+
+  .why-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .why-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
+    color: rgba(245,166,35,0.2);
+    line-height: 1;
+    min-width: 52px;
+  }
+
+  .why-content h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .why-content p {
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    line-height: 1.75;
+  }
+
+  /* ─── PORTFOLIO GALLERY ─── */
+  .gallery-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 14px;
+    text-align: center;
+  }
+
+  .gallery-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    letter-spacing: 0.06em;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 280px 280px;
+    gap: 3px;
+  }
+
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    background: var(--charcoal);
+    cursor: pointer;
+  }
+
+  .gallery-item:first-child {
+    grid-column: span 2;
+    grid-row: span 1;
+  }
+
+  .gallery-item:last-child {
+    grid-column: span 2;
+  }
+
+  .gallery-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(245,166,35,0.06) 0%, rgba(10,22,40,0.9) 100%);
+    border: 1px solid rgba(245,166,35,0.08);
+    transition: all 0.4s;
+    gap: 12px;
+  }
+
+  .gallery-placeholder:hover {
+    background: linear-gradient(135deg, rgba(245,166,35,0.12) 0%, rgba(10,22,40,0.9) 100%);
+  }
+
+  .gallery-placeholder span {
+    font-size: 2.5rem;
+  }
+
+  .gallery-placeholder p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+  }
+
+  .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(6,14,28,0.7);
+    display: flex;
+    align-items: flex-end;
+    padding: 24px;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+  .gallery-overlay-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    color: var(--gold);
+  }
+
+  /* ─── PROCESS ─── */
+  .process-steps {
+    display: flex;
+    gap: 0;
+    margin-top: 60px;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    right: 28px;
+    height: 1px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+
+  .step {
+    flex: 1;
+    text-align: center;
+    padding: 0 20px;
+  }
+
+  .step-num {
+    width: 56px;
+    height: 56px;
+    border: 1.5px solid var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 24px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--gold);
+    background: var(--darker);
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .step-text {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    line-height: 1.7;
+  }
+
+  /* ─── TESTIMONIAL ─── */
+  .testimonial-section {
+    background: rgba(245,166,35,0.03);
+    border-top: 1px solid rgba(245,166,35,0.08);
+    border-bottom: 1px solid rgba(245,166,35,0.08);
+    padding: 100px 60px;
+  }
+
+  .testimonials-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 60px;
+  }
+
+  .testimonial-card {
+    background: rgba(6,14,28,0.6);
+    border: 1px solid rgba(245,166,35,0.1);
+    padding: 40px 32px;
+    position: relative;
+  }
+
+  .testimonial-card::before {
+    content: '"';
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 6rem;
+    color: rgba(245,166,35,0.15);
+    position: absolute;
+    top: -10px;
+    left: 24px;
+    line-height: 1;
+  }
+
+  .testimonial-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.8;
+    color: var(--text-light);
+    margin-bottom: 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .testimonial-author {
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .stars { color: var(--gold); font-size: 0.75rem; margin-bottom: 12px; }
+
+  /* ─── CONTACT ─── */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+    margin-top: 60px;
+  }
+
+  .contact-info { display: flex; flex-direction: column; gap: 32px; }
+
+  .contact-item {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  .contact-icon {
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(245,166,35,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    color: var(--gold);
+  }
+
+  .contact-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .contact-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.05rem;
+    color: var(--text-light);
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 16px; }
+
+  .form-field {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(245,166,35,0.12);
+    padding: 16px 20px;
+    color: var(--cream);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.82rem;
+    outline: none;
+    transition: border-color 0.3s;
+    width: 100%;
+  }
+
+  .form-field:focus { border-color: rgba(245,166,35,0.4); }
+  .form-field::placeholder { color: var(--text-muted); }
+
+  textarea.form-field { min-height: 140px; resize: vertical; }
+
+  .submit-btn {
+    background: var(--gold);
+    color: var(--darker);
+    border: none;
+    padding: 16px 40px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    align-self: flex-start;
+  }
+
+  .submit-btn:hover { background: var(--deep-gold); transform: translateY(-2px); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative;
+    z-index: 1;
+    background: rgba(6,14,28,0.95);
+    border-top: 1px solid rgba(245,166,35,0.1);
+    padding: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-tagline {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-top: 6px;
+  }
+
+  .footer-copy {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--text-muted);
+    text-align: right;
+  }
+
+  /* ─── SCROLL REVEAL ─── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    nav { padding: 16px 24px; }
+    .nav-links { display: none; }
+    section { padding: 70px 24px; }
+    .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .services-grid, .testimonials-grid { grid-template-columns: 1fr; }
+    .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .gallery-item:first-child, .gallery-item:last-child { grid-column: span 1; }
+    .process-steps { flex-direction: column; gap: 30px; }
+    .process-steps::before { display: none; }
+    .why-list { grid-template-columns: 1fr; }
+    footer { flex-direction: column; gap: 20px; text-align: center; }
+    .footer-copy { text-align: center; }
+    .services-full, .testimonial-section { padding: 70px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Background canvas -->
+<canvas id="network-canvas"></canvas>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#">LFW</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#process">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div>
+    <img src="/mnt/user-data/uploads/1776244431866_Screenshot_20250719-230132_1_1_.jpg" alt="Lukman's Furniture Works Logo" class="hero-logo">
+    <p class="hero-eyebrow">Est. Benin City · Since Day One</p>
+    <h1 class="hero-title">Lukman's<br><span>Furniture</span><br>Works</h1>
+    <p class="hero-subtitle">Where timber meets artistry — crafted for life, built to last.</p>
+    <a href="#contact" class="hero-cta">Request a Quote</a>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-grid reveal">
+    <div>
+      <p class="section-label">Our Story</p>
+      <h2 class="section-title">Built On Craft, Driven By Passion</h2>
+      <div class="divider"></div>
+      <p class="section-body">
+        At Lukman's Furniture Works, we transform raw timber into timeless pieces that define living spaces.
+        Located along the Benin–Auchi Road corridor in Benin City, Edo State, we have been
+        serving homeowners, businesses, and institutions with bespoke furniture solutions crafted with precision,
+        care, and an unwavering eye for quality. Every joint, every finish, every curve tells a story of mastery.
+      </p>
+      <br>
+      <p class="section-body">
+        From custom wardrobes and luxury beds to executive office suites and full interior setups —
+        we don't just make furniture, we craft environments where memories are made.
+      </p>
+    </div>
+    <div class="about-stats">
+      <div class="stat-card">
+        <span class="stat-num">500+</span>
+        <span class="stat-label">Projects Completed</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">10+</span>
+        <span class="stat-label">Years of Excellence</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">100%</span>
+        <span class="stat-label">Client Satisfaction</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-num">∞</span>
+        <span class="stat-label">Possibilities</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<div class="services-full" id="services">
+  <div style="max-width:1300px;margin:0 auto;">
+    <p class="section-label reveal">What We Offer</p>
+    <h2 class="section-title reveal">Our Specialisations</h2>
+    <div class="services-grid reveal">
+      <div class="service-card">
+        <span class="service-icon">🛏️</span>
+        <p class="service-name">Bedroom Furniture</p>
+        <p class="service-desc">Bespoke beds, wardrobes, dressing tables, and bedside units crafted to suit your space and style. We blend comfort with elegance in every bedroom set.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🛋️</span>
+        <p class="service-name">Living Room Sets</p>
+        <p class="service-desc">Stunning sofas, TV stands, coffee tables, and display units. We design living rooms that reflect your personality and invite warm conversations.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🏢</span>
+        <p class="service-name">Office Furniture</p>
+        <p class="service-desc">Executive desks, boardroom tables, ergonomic workstations, and shelving systems. We equip your workspace with furniture that inspires productivity.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🍽️</span>
+        <p class="service-name">Dining Furniture</p>
+        <p class="service-desc">Dining tables and chairs crafted from premium hardwoods. From intimate family dinners to grand banquet setups — we set the stage for every meal.</p>
+      </div>
+      <div class="service-card">
+        <span class="service-icon">🔨</span>
+        <p class="service-name">Custom Carpentry</p>
+        <p class="service-desc">Do you have a unique idea? We bring it to life. Our skilled carpenters execute custom designs, renovations, and one-of-
